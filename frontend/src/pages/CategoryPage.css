@@ -1,0 +1,369 @@
+/* 분야 화면 — index.css의 디자인 토큰만 사용 */
+
+.category-heading {
+  margin-bottom: var(--space-5);
+}
+
+.category-stale {
+  display: inline-block;
+  margin: var(--space-3) 0 0;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+/* ---------- 분야 이동 버튼 줄 ---------- */
+
+.category-nav {
+  /* 좁은 화면에서 가로 스크롤이 화면 끝까지 이어지도록 본문 여백만큼 바깥으로 */
+  margin: 0 calc(var(--gutter) * -1) var(--space-6);
+}
+
+.category-nav-list {
+  position: relative; /* 현재 분야 버튼 위치(offsetLeft) 계산 기준 */
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-1) var(--gutter); /* 위아래 여백은 포커스 링이 잘리지 않게 */
+  overflow-x: auto;
+  list-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.category-nav-list::-webkit-scrollbar {
+  display: none;
+}
+
+.category-nav-list li {
+  flex-shrink: 0;
+}
+
+.category-pill {
+  display: inline-block;
+  padding: 7px var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.5;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.category-pill:hover {
+  border-color: var(--color-border-strong);
+  color: var(--color-text-strong);
+}
+
+.category-pill.is-current {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ---------- 이슈 목록 (아코디언) ---------- */
+
+.issue-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.issue-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  /* 스크롤해 왔을 때 고정 헤더에 가리지 않게 */
+  scroll-margin-top: calc(var(--header-height) + var(--space-5));
+  transition:
+    box-shadow var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.issue-card.is-expanded {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+/* 홈에서 눌러 들어온 이슈: 옅은 포인트 배경이 서서히 사라짐 */
+.issue-card.is-highlighted {
+  animation: issue-highlight 2.4s var(--ease-standard) both;
+}
+
+/* 스크롤 등장과 강조가 겹치는 카드: 두 애니메이션을 함께 재생.
+   나타나기 전에는 강조를 멈춰 두어, 화면에 보일 때 강조가 처음부터 시작되게 */
+.issue-card.is-highlighted[data-reveal]:not([data-revealed]) {
+  animation: none;
+}
+
+.issue-card.is-highlighted[data-revealed] {
+  animation:
+    reveal-up var(--reveal-duration) var(--smooth) var(--reveal-delay) backwards,
+    issue-highlight 2.4s var(--ease-standard) var(--reveal-delay) both;
+}
+
+@keyframes issue-highlight {
+  0%,
+  35% {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent);
+  }
+
+  100% {
+    background: var(--color-surface);
+  }
+}
+
+.issue-heading {
+  margin: 0;
+  font-size: var(--font-size-md);
+}
+
+.issue-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-4) var(--space-5);
+  border: 0;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+}
+
+.issue-title {
+  flex: 1;
+  min-width: 0;
+  /* 접힌 상태: 한 줄 + 말줄임 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+
+.issue-card.is-expanded .issue-title {
+  white-space: normal;
+}
+
+.issue-toggle:hover .issue-title {
+  color: var(--color-accent);
+}
+
+.issue-chevron {
+  flex-shrink: 0;
+  color: var(--color-text-muted);
+  transition: transform 0.3s var(--ease-standard);
+}
+
+.issue-card.is-expanded .issue-chevron {
+  transform: rotate(180deg);
+}
+
+/* 높이 0 → 내용 높이로 부드럽게 (grid 행 0fr → 1fr) */
+.issue-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s var(--ease-standard);
+}
+
+.issue-card.is-expanded .issue-panel {
+  grid-template-rows: 1fr;
+}
+
+.issue-panel-clip {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.issue-panel-content {
+  padding: 0 var(--space-5) var(--space-5);
+}
+
+.issue-summary {
+  max-width: 68ch; /* 넓은 화면에서도 한 줄이 너무 길지 않게 */
+  margin: 0;
+  color: var(--color-text);
+  line-height: var(--line-height-body);
+}
+
+.issue-sources-title {
+  margin: var(--space-5) 0 var(--space-2);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0;
+}
+
+.issue-sources {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-3) 0 0;
+  border-top: 1px solid var(--color-border);
+  list-style: none;
+}
+
+.issue-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.issue-source-press {
+  color: var(--color-text-strong);
+  font-weight: var(--font-weight-semibold);
+}
+
+.issue-source-sep,
+.issue-source-time {
+  color: var(--color-text-muted);
+}
+
+.issue-source-link {
+  border-radius: 4px;
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-strong);
+  text-underline-offset: 3px;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    text-decoration-color var(--duration-fast) var(--ease-standard);
+}
+
+.issue-source-link:hover {
+  color: var(--color-accent);
+  text-decoration-color: currentColor;
+}
+
+/* ---------- 로딩 스켈레톤 ---------- */
+
+.issue-card--skeleton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  min-height: 58px;
+}
+
+.skeleton-line,
+.skeleton-dot {
+  display: block;
+  background: var(--color-surface-hover);
+  animation: issue-skeleton-pulse 1.4s ease-in-out infinite;
+}
+
+.skeleton-line {
+  flex: 1;
+  max-width: 60%;
+  height: 16px;
+  border-radius: var(--radius-full);
+}
+
+.issue-card--skeleton:nth-child(2n) .skeleton-line {
+  max-width: 45%;
+}
+
+.skeleton-dot {
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  border-radius: var(--radius-full);
+}
+
+@keyframes issue-skeleton-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* ---------- 빈 결과 / 실패 / 없는 분야 ---------- */
+
+.category-state {
+  margin: 0;
+  text-align: center;
+}
+
+.category-state--empty {
+  padding: var(--space-7) var(--space-5);
+  border: 1px dashed var(--color-border-strong);
+  border-radius: var(--radius-md);
+  color: var(--color-text-muted);
+}
+
+.category-state--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  min-height: 40vh;
+}
+
+.category-state-message {
+  margin: 0;
+  color: var(--color-text-strong);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+}
+
+.category-state-action {
+  display: inline-block;
+  padding: var(--space-2) var(--space-5);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+.category-state-action:hover {
+  background: var(--color-accent-hover);
+}
+
+@media (max-width: 400px) {
+  .issue-toggle {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .issue-panel-content {
+    padding: 0 var(--space-4) var(--space-4);
+  }
+}
+
+/* 강조는 색만 서서히 바뀌는 효과라 움직임 줄이기 설정에서도 유지 */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-line,
+  .skeleton-dot {
+    animation: none;
+  }
+
+  .issue-card.is-highlighted[data-revealed] {
+    animation: issue-highlight 2.4s var(--ease-standard) both;
+  }
+}

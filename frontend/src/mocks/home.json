@@ -1,0 +1,60 @@
+{
+  "generatedAt": "2026-10-08T07:00:00+09:00",
+  "mock": true,
+  "categories": [
+    {
+      "category": "POLITICS",
+      "categoryName": "정치",
+      "issues": [
+        { "issueId": 101, "title": "여야, 내년도 예산안 심사 일정 합의…다음 주부터 본격 협상" },
+        { "issueId": 102, "title": "국회 상임위, 지방소멸 대응 특별법 개정안 의결" },
+        { "issueId": 103, "title": "외교부 장관, 한중일 외교장관회의 참석차 출국" }
+      ]
+    },
+    {
+      "category": "ECONOMY",
+      "categoryName": "경제",
+      "issues": [
+        { "issueId": 201, "title": "한국은행, 기준금리 동결…\"물가 흐름 더 지켜볼 것\"" },
+        { "issueId": 202, "title": "9월 수출 전년 대비 증가…반도체 호조 이어져" },
+        { "issueId": 203, "title": "수도권 아파트 거래량 석 달 연속 감소" }
+      ]
+    },
+    {
+      "category": "SOCIETY",
+      "categoryName": "사회",
+      "issues": [
+        { "issueId": 301, "title": "연휴 귀경길 정체 절정…고속도로 곳곳 서행" },
+        { "issueId": 302, "title": "교육부, 2027학년도 대입 전형 기본사항 발표" },
+        { "issueId": 303, "title": "서울시, 심야 자율주행 버스 노선 확대 운행" }
+      ]
+    },
+    {
+      "category": "LIFE_CULTURE",
+      "categoryName": "생활/문화",
+      "issues": [
+        { "issueId": 401, "title": "가을 단풍 절정 시기 예보…설악산 이달 중순" },
+        { "issueId": 402, "title": "국립중앙박물관 특별전, 개막 일주일 만에 관람객 10만 명" },
+        { "issueId": 403, "title": "환절기 독감 유행 조짐…예방접종 서둘러야" }
+      ]
+    },
+    {
+      "category": "IT_SCIENCE",
+      "categoryName": "IT/과학",
+      "issues": [
+        { "issueId": 501, "title": "국내 연구진, 상온 동작 차세대 메모리 소자 개발" },
+        { "issueId": 502, "title": "정부, AI 기본법 시행령 초안 공개…업계 의견 수렴" },
+        { "issueId": 503, "title": "누리호 후속 발사체 엔진 연소시험 성공" }
+      ]
+    },
+    {
+      "category": "SPORTS",
+      "categoryName": "스포츠",
+      "issues": [
+        { "issueId": 601, "title": "프로야구 포스트시즌 대진 확정…와일드카드 결정전 돌입" },
+        { "issueId": 602, "title": "축구대표팀, 10월 A매치 명단 발표…신예 공격수 첫 발탁" },
+        { "issueId": 603, "title": "여자배구 V리그 개막 앞두고 미디어데이 개최" }
+      ]
+    }
+  ]
+}

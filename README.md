@@ -35,6 +35,25 @@
 
 ---
 
+## 저장소 구성
+
+| 저장소 | 내용 | 담당 |
+|--------|------|------|
+| **[team01](./)** (현재) | 프로젝트 소개, 위키, 이슈·칸반, 회의록 | 전원 |
+| [team01-backend](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-backend) | Spring Boot API·워커·요약 배치, CI(테스트·이미지 빌드) | 이용민 |
+| [team01-frontend](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-frontend) | React 화면, Nginx 이미지, CI | 박영찬 |
+| [team01-infra](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra) | Kubernetes 매니페스트, 온프렘 클러스터 설정, Terraform, 배포 workflow | 김상협·김차니 |
+
+```
+backend·frontend 저장소: 테스트 → 이미지 빌드 → GHCR (커밋 SHA 태그)
+infra 저장소:          그 이미지를 온프렘(develop)·AWS(main)에 배포
+```
+
+- 이슈와 칸반은 이 저장소의 **team-01 진행보드** 한 곳에서 관리합니다. 코드 관련 이슈는 각 저장소에 만들고 같은 보드에 추가합니다.
+- 브랜치 규칙은 모든 저장소가 같습니다: `develop`(개발·온프렘 배포) / `main`(운영·AWS 배포), PR 리뷰 1명 이상.
+
+---
+
 ## 빠른 심사 흐름 (5분)
 
 > 심사위원·멘토가 5분 안에 핵심 기능을 확인할 수 있는 순서로 작성합니다.
@@ -116,6 +135,7 @@ API 상세 경로와 요청/응답 구조는 Wiki > API Specification 을 따릅
 | **Start Here** | 기획 배경 · User Flows · UI Screens |
 | **Architecture** | System Architecture · ERD · API Specification |
 | **Operations** | 배포 가이드 · 장애 시나리오 · 성능 테스트 · 회의록 · 트러블슈팅 |
+| **Code** | [backend](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-backend) · [frontend](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-frontend) · [infra](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra) |
 
 ---
 
@@ -151,40 +171,18 @@ API 상세 경로와 요청/응답 구조는 Wiki > API Specification 을 따릅
 
 ## 로컬 실행
 
-**사전 요구사항:** {{Node 20+, JDK 17, MySQL 8.0}}
+코드는 저장소별로 나뉘어 있어서, 실행 방법도 각 저장소 README에서 관리합니다.
 
-**Backend**
-
-```bash
-cp backend/.env.example backend/.env
-{{./gradlew bootRun}}
-```
-
-**Frontend**
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-- backend: `http://localhost:8080`
-- frontend: `http://localhost:3000`
-- env 템플릿: `backend/.env.example`, `frontend/.env.example`
-
-**검증**
-
-```bash
-{{./gradlew test}}
-cd frontend && npm run build
-```
+- Backend — [team01-backend README](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-backend#readme)
+- Frontend — [team01-frontend README](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-frontend#readme)
+- 클러스터 배포 — [team01-infra README](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra#readme)
 
 ---
 
 ## 기여 방법
 
-- **규칙 요약** — [CONTRIBUTING.md](./CONTRIBUTING.md)
-- **실행 방법 상세** — [협업 가이드](./docs/GUIDE.md)
+- **규칙 요약** — [CONTRIBUTING.md](./CONTRIBUTING.md) (모든 저장소 공통)
+- **협업 절차 상세** — [협업 가이드](./docs/GUIDE.md)
 
 ## License
 

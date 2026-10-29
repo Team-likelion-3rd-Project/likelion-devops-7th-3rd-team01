@@ -8,19 +8,21 @@
 ![MySQL](https://img.shields.io/badge/MySQL-151515?style=for-the-badge&logo=mysql&logoColor=4479A1)
 ![Redis](https://img.shields.io/badge/Redis-151515?style=for-the-badge&logo=redis&logoColor=FF4438)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-151515?style=for-the-badge&logo=kubernetes&logoColor=326CE5)
+![Helm](https://img.shields.io/badge/Helm-151515?style=for-the-badge&logo=helm&logoColor=0F1689)
+![Argo CD](https://img.shields.io/badge/Argo_CD-151515?style=for-the-badge&logo=argo&logoColor=EF7B4D)
 ![Terraform](https://img.shields.io/badge/Terraform-151515?style=for-the-badge&logo=terraform&logoColor=844FBA)
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-151515?style=for-the-badge&logo=githubactions&logoColor=2088FF)
 ![AWS](https://img.shields.io/badge/AWS-151515?style=for-the-badge&logo=amazonwebservices&logoColor=FF9900)
 
-> **매일 쏟아지는 뉴스를 챙기기 버거운 사람을 위해, AI가 6개 분야의 주요 이슈를 기사 근거와 함께 요약하고 궁금한 점에 기사 기반으로 답해 주는 서비스**
+> **매일 쏟아지는 IT 뉴스를 챙기기 버거운 사람을 위해, AI가 6개 분야의 주요 이슈를 기사 근거와 함께 요약하고 궁금한 점에 기사 기반으로 답해 주는 서비스**
 
 [![데모 영상](https://img.youtube.com/vi/{{YOUTUBE_ID}}/maxresdefault.jpg)]({{YOUTUBE_URL}})
 
-정치·경제·사회·생활/문화·IT/과학·스포츠 6개 분야의 뉴스를 서버가 30분마다 미리 요약해 두고, 누구나 로그인 없이 바로 볼 수 있습니다. 로그인한 사용자는 "클라우드 기업 전망 알려줘"처럼 질문하면 관련 기사를 찾아 AI가 그 기사만 근거로 답하고, 모든 답에는 원문 링크가 붙습니다. 서비스는 작게 만들고, **같은 서비스를 온프레미스 → AWS EC2 → Terraform으로 만든 AWS 환경 순서로 세 번 배포하며 배포를 점점 자동화하는 것**이 이 프로젝트의 핵심 목표입니다.
+AI·IT 일반·모바일/통신·컴퓨터·보안·과학 6개 분야의 전자신문 기사를 서버가 30분마다 미리 요약해 두고, 누구나 로그인 없이 바로 볼 수 있습니다. 로그인한 사용자는 "클라우드 기업 전망 알려줘"처럼 질문하면 최근 7일간 수집한 기사 중 관련 기사를 찾아 AI가 그 기사만 근거로 답하고, 모든 답에는 원문 링크가 붙습니다. 서비스는 작게 만들고, **같은 서비스를 온프레미스 → AWS EC2 → Terraform으로 만든 AWS EKS 순서로 세 번 배포하며 배포를 점점 자동화하는 것**이 이 프로젝트의 핵심 목표입니다.
 
-- **배포 주소:** {{https://example.com}}
+- **배포 주소:** {{https://example.com}} (비용 관리를 위해 야간에는 서비스를 정지합니다)
 - **시연 영상:** [YouTube]({{YOUTUBE_URL}})
-- **문서 최종 정리일:** `YYYY-MM-DD` / **구현 기준일:** `YYYY-MM-DD`
+- **문서 최종 정리일:** `2026-10-29` / **구현 기준일:** `2026-10-29`
 
 ---
 
@@ -28,10 +30,10 @@
 
 | 이름 | 역할 | 담당 | GitHub |
 |------|------|------|--------|
-| 김상협 | 온프레미스 (ON) | VM·kubeadm 개발 클러스터, develop 자동 배포, 모니터링, 백업·복구 | [@HyeobSang](https://github.com/HyeobSang) |
+| 김상협 | 온프레미스 (ON) · 팀장 | VM·kubeadm 개발 클러스터, develop 자동 배포, EKS·GitOps 배포, HPA, 모니터링, 백업·복구, 장애 시나리오 | [@HyeobSang](https://github.com/HyeobSang) |
 | 김차니 | 클라우드 (CL) | AWS 3Tier, main 운영 배포, Terraform, 비용 관리 | [@chaneee93](https://github.com/chaneee93) |
-| 이용민 | 백엔드 (BE) | 뉴스 수집·AI 요약, 질문 처리, API·인증, 성능 테스트 | [@leeym27](https://github.com/leeym27) |
-| 박영찬 | 프론트엔드 (FE) | 홈·분야·질문 결과·마이페이지 화면, 정적 배포 | [@ycpark8156](https://github.com/ycpark8156) |
+| 이용민 | 백엔드 (BE) | 뉴스 수집·AI 요약, 질문 처리, API·인증, 성능 테스트·캐시 개선 | [@leeym27](https://github.com/leeym27) |
+| 박영찬 | 프론트엔드 (FE) · 클라우드 지원 | 홈·분야·질문 결과·마이페이지 화면, 정적 배포, Terraform·배포 환경 설정 | [@ycpark8156](https://github.com/ycpark8156) |
 
 ---
 
@@ -42,11 +44,12 @@
 | **[team01](./)** (현재) | 프로젝트 소개, 위키, 이슈·칸반, 회의록 | 전원 |
 | [team01-backend](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-backend) | Spring Boot API·워커·요약 배치, CI(테스트·이미지 빌드) | 이용민 |
 | [team01-frontend](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-frontend) | React 화면, Nginx 이미지, CI | 박영찬 |
-| [team01-infra](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra) | Kubernetes 매니페스트, 온프렘 클러스터 설정, Terraform, 배포 workflow | 김상협·김차니 |
+| [team01-infra](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra) | Helm 차트, Argo CD, 온프렘 클러스터 설정, Terraform, 배포 workflow, 모니터링·백업, 성능·장애 검증 결과 | 김상협·박영찬 |
 
 ```
 backend·frontend 저장소: 테스트 → 이미지 빌드 → GHCR (커밋 SHA 태그)
-infra 저장소:          그 이미지를 온프렘(develop)·AWS(main)에 배포
+infra 저장소:          같은 Helm 차트로 온프렘(develop)·AWS EKS(main)에 배포
+                       두 환경 모두 Argo CD (GitOps): workflow가 태그 브랜치에 커밋 → Argo CD가 반영
 ```
 
 - 이슈와 칸반은 이 저장소의 **team-01 진행보드** 한 곳에서 관리합니다. 코드 관련 이슈는 각 저장소에 만들고 같은 보드에 추가합니다.
@@ -59,10 +62,10 @@ infra 저장소:          그 이미지를 온프렘(develop)·AWS(main)에 배�
 > 심사위원·멘토가 5분 안에 핵심 기능을 확인할 수 있는 순서로 작성합니다.
 
 1. 위 영상 썸네일을 클릭해 전체 시연을 확인합니다.
-2. {{배포 주소}} 를 엽니다.
-3. 테스트 계정으로 로그인합니다. (`ID: {{demo}}` / `PW: {{demo1234}}`)
-4. {{핵심 기능 1}} 을 실행합니다.
-5. {{핵심 기능 2}} 결과 화면에서 {{확인 포인트}} 를 확인합니다.
+2. {{배포 주소}} 를 엽니다. 로그인 없이 홈에서 6개 분야 요약 카드를 확인합니다.
+3. 분야 카드를 눌러 이슈 제목을 펼치고, 요약 아래 원문 링크가 붙어 있는지 확인합니다.
+4. 테스트 계정으로 로그인합니다. (`ID: {{demo}}` / `PW: {{demo1234}}`)
+5. 질문하기에서 "최근 보안 이슈 정리해줘"처럼 질문하고, 결과 화면에서 답변 근거 기사 링크와 남은 질문 횟수를 확인합니다.
 
 ---
 
@@ -72,8 +75,8 @@ infra 저장소:          그 이미지를 온프렘(develop)·AWS(main)에 배�
 - **요약은 미리 만들고, 사용자는 읽기만 한다** — 30분마다 서버가 요약을 만들어 저장하므로 접속자가 늘어도 AI 비용이 늘지 않습니다. 같은 시각에는 모든 사용자가 같은 요약을 봅니다.
 - **오래 걸리는 질문은 접수와 처리를 나눈다** — 질문은 즉시 DB에 기록하고 대기열을 거쳐 워커가 처리합니다. 질문 상태의 기준은 항상 DB이므로 대기열 항목이 사라져도 다시 처리됩니다.
 - **외부 장애가 사용자 오류로 번지지 않는다** — 요약 갱신에 실패하면 직전 요약을 보여주고, AI·뉴스 API 실패는 질문의 실패 상태로만 드러납니다. Redis가 멈춰도 DB로 서비스가 이어집니다.
-- **같은 이미지를 여러 환경에 배포한다** — 온프레미스(develop)와 AWS(main)에 커밋 SHA로 태그한 같은 이미지를 배포하고, 매번 수동 작업을 자동화로 바꿉니다.
-- **평소에는 mock, 필요할 때만 실제 AI** — 개발·테스트는 mock으로 하고, mock일 때는 화면에 "샘플 데이터" 띠를 띄워 가짜 뉴스로 오해하지 않게 합니다.
+- **같은 이미지·같은 차트를 여러 환경에 배포한다** — 온프레미스(develop)와 AWS(main)에 커밋 SHA로 태그한 같은 이미지를 같은 Helm 차트로 배포하고, values 파일만 환경별로 바꿉니다.
+- **평소에는 mock, 필요할 때만 실제 AI** — 개발·테스트·부하 테스트는 mock으로 하고, mock일 때는 화면에 "샘플 데이터" 띠를 띄워 가짜 뉴스로 오해하지 않게 합니다.
 
 ---
 
@@ -85,28 +88,32 @@ infra 저장소:          그 이미지를 온프렘(develop)·AWS(main)에 배�
 [운영: AWS, main]
 사용자
   -> CloudFront -> S3 (React 정적 화면)
-  -> ALB -> Spring Boot API (Kubernetes)
+  -> ALB -> Spring Boot API (EKS, HPA 2~4개)
        -> RDS MySQL / ElastiCache Redis (캐시·대기열)
-       -> 워커 -> 뉴스 RSS·검색 API, AI 서비스
+       -> 워커 -> 전자신문 RSS, Amazon Bedrock
   -> 응답
+배포: GitHub Actions -> deploy/aws 브랜치 -> Argo CD가 클러스터에 반영
 
 [개발: 온프레미스, develop]
 VM 3대 kubeadm 클러스터
-  -> Ingress(Nginx): / 화면, /api/* API
+  -> Ingress(Traefik): / 화면, /api/* API
   -> API·워커·요약 갱신 배치·MySQL·Redis
-  -> 백업 -> S3
+  -> MySQL·etcd 백업 (매일 새벽, 7일 보관)
+배포: GitHub Actions -> deploy/onprem 브랜치 -> Argo CD가 클러스터에 반영
 ```
 
 | 영역 | 기술 |
 |------|------|
-| Frontend | React (SPA) |
+| Frontend | React (SPA), Nginx |
 | Backend | Spring Boot, Spring Actuator |
-| Database | MySQL (온프렘: 클러스터 내 / AWS: RDS) |
+| AI | Amazon Bedrock (Claude Haiku 5.5), 개발·테스트는 mock |
+| Database | MySQL (온프렘: 클러스터 내 StatefulSet / AWS: RDS) |
 | Cache · Queue | Redis (온프렘: 클러스터 내 / AWS: ElastiCache) |
-| Infra | 온프레미스 VM kubeadm, AWS EC2 kubeadm, ALB, S3, CloudFront |
+| Infra | 온프레미스 VM kubeadm, AWS EKS (이전 단계 EC2 kubeadm), ALB, S3, CloudFront |
 | IaC | Terraform |
-| CI/CD | GitHub Actions |
-| 모니터링 | Prometheus, Grafana |
+| CI/CD | GitHub Actions, Helm, Argo CD |
+| 확장 | HPA (API, CPU 70% 기준 2~4개) |
+| 모니터링 | Prometheus, Grafana (kube-prometheus-stack) |
 | 인증 | JWT (httpOnly 쿠키) |
 
 ---
@@ -117,7 +124,7 @@ VM 3대 kubeadm 클러스터
 |------|------|------------|
 | 홈 | 6개 분야 카드, 분야마다 주요 이슈 제목 3개 | X |
 | 분야 페이지 | 이슈 목록, 제목을 누르면 요약·출처·원문 링크 펼침 | X |
-| 질문하기 | 질문하면 관련 기사를 찾아 AI가 기사 근거로 답변 (하루 10회) | O |
+| 질문하기 | 질문하면 최근 7일 수집 기사에서 관련 기사를 찾아 AI가 기사 근거로 답변 (하루 10회) | O |
 | 질문 기록 | 보낸 질문과 결과를 자동 기록, 처리 중에 화면을 떠나도 이어서 확인 | O |
 | 질문 저장 | 결과 화면의 별 버튼으로 저장, 마이페이지에서 모아보기 | O |
 
@@ -141,17 +148,19 @@ API 상세 경로와 요청/응답 구조는 Wiki > API Specification 을 따릅
 
 ## 범위 경계
 
-**제공 범위 (목표):**
+**제공 범위:**
 
-- 6개 분야 뉴스 요약 (30분 주기 갱신, 원문 링크 포함)
+- IT 6개 분야 뉴스 요약 (30분 주기 갱신, 원문 링크 포함)
 - 로그인 사용자의 뉴스 기반 질문·답변, 질문 기록·저장
-  - 질문 답변은 서비스가 수집한 전자신문 IT 기사 범위 안에서만 제공 (외부 검색 API 미사용)
+  - 질문 답변은 서비스가 수집한 전자신문 IT 기사(최근 7일) 범위 안에서만 제공 (외부 검색 API 미사용)
 - 온프레미스·AWS 두 환경 자동 배포, Terraform으로 운영 환경 재생성
-- 롤백·백업 복구·부하 테스트 시나리오 검증
+- 롤백·백업 복구·부하 테스트·장애 시나리오 검증 (결과 요약은 [infra README](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra#검증-결과))
 
 **현재 미제공:**
 
 - 뉴스와 무관한 요청 — 코드 작성, 번역, 개념 설명, 잡담처럼 기사 없이 답하는 질문은 서비스 범위 밖이라 거절 안내로 응답
+- RDS·Redis 다중 AZ 장애 전환 (비용 절감을 위해 단일 AZ로 운영, Terraform 설정으로 전환 가능)
+- 워커 자동 확장(KEDA), 온프레미스 백업의 외부(S3) 복사
 
 **배포 단계:** `dev` → **`demo` (현재)** → `prod` (미선언)
 
@@ -163,9 +172,9 @@ API 상세 경로와 요청/응답 구조는 Wiki > API Specification 을 따릅
 
 - 인증·클라우드 비밀값, `.env` 실제 값, 인증서·키 파일 (AI·뉴스 API 키, DB 비밀번호는 Kubernetes Secret으로 주입)
 - 실제 사용자 개인정보, 운영 DB 계정 정보
-- 내부 인프라 식별자 및 서버 직접 접근 URL
+- 내부 인프라 식별자(계정 ID, IP, 엔드포인트) 및 서버 직접 접근 URL
 
-비밀값이 실수로 커밋되면 GitHub이 push를 차단합니다. 이미 커밋된 경우 **즉시 해당 키를 폐기하고 재발급**하세요. 커밋을 되돌리는 것만으로는 이력에 남습니다.
+AWS 배포는 장기 액세스 키 없이 GitHub Actions OIDC 단기 권한을 사용합니다. 비밀값이 실수로 커밋되면 GitHub이 push를 차단합니다. 이미 커밋된 경우 **즉시 해당 키를 폐기하고 재발급**하세요. 커밋을 되돌리는 것만으로는 이력에 남습니다.
 
 ---
 

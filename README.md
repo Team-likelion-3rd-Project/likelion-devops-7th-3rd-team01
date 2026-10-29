@@ -44,12 +44,12 @@ AI·IT 일반·모바일/통신·컴퓨터·보안·과학 6개 분야의 전자
 | **[team01](./)** (현재) | 프로젝트 소개, 위키, 이슈·칸반, 회의록 | 전원 |
 | [team01-backend](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-backend) | Spring Boot API·워커·요약 배치, CI(테스트·이미지 빌드) | 이용민 |
 | [team01-frontend](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-frontend) | React 화면, Nginx 이미지, CI | 박영찬 |
-| [team01-infra](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra) | Helm 차트, 온프렘 클러스터 설정, Terraform, 배포 workflow, 모니터링·백업 | 김상협·박영찬 |
+| [team01-infra](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra) | Helm 차트, Argo CD, 온프렘 클러스터 설정, Terraform, 배포 workflow, 모니터링·백업, 성능·장애 검증 결과 | 김상협·박영찬 |
 
 ```
 backend·frontend 저장소: 테스트 → 이미지 빌드 → GHCR (커밋 SHA 태그)
 infra 저장소:          같은 Helm 차트로 온프렘(develop)·AWS EKS(main)에 배포
-                       온프렘: self-hosted runner / AWS: Argo CD (GitOps)
+                       두 환경 모두 Argo CD (GitOps): workflow가 태그 브랜치에 커밋 → Argo CD가 반영
 ```
 
 - 이슈와 칸반은 이 저장소의 **team-01 진행보드** 한 곳에서 관리합니다. 코드 관련 이슈는 각 저장소에 만들고 같은 보드에 추가합니다.
@@ -99,7 +99,7 @@ VM 3대 kubeadm 클러스터
   -> Ingress(Traefik): / 화면, /api/* API
   -> API·워커·요약 갱신 배치·MySQL·Redis
   -> MySQL·etcd 백업 (매일 새벽, 7일 보관)
-배포: GitHub Actions -> 클러스터 안 self-hosted runner -> Helm
+배포: GitHub Actions -> deploy/onprem 브랜치 -> Argo CD가 클러스터에 반영
 ```
 
 | 영역 | 기술 |
@@ -111,7 +111,7 @@ VM 3대 kubeadm 클러스터
 | Cache · Queue | Redis (온프렘: 클러스터 내 / AWS: ElastiCache) |
 | Infra | 온프레미스 VM kubeadm, AWS EKS (이전 단계 EC2 kubeadm), ALB, S3, CloudFront |
 | IaC | Terraform |
-| CI/CD | GitHub Actions, Helm, Argo CD (AWS) |
+| CI/CD | GitHub Actions, Helm, Argo CD |
 | 확장 | HPA (API, CPU 70% 기준 2~4개) |
 | 모니터링 | Prometheus, Grafana (kube-prometheus-stack) |
 | 인증 | JWT (httpOnly 쿠키) |
@@ -130,24 +130,6 @@ VM 3대 kubeadm 클러스터
 
 주요 화면: 홈 / 분야 페이지 / 질문 결과 / 마이페이지 — 자세한 구성은 Wiki > UI Screens 참고.
 API 상세 경로와 요청/응답 구조는 Wiki > API Specification 을 따릅니다.
-
----
-
-## 검증 결과
-
-10/23~10/29 온프레미스·EKS에서 직접 측정했습니다. 상세 조건과 수치는 Wiki > 성능 테스트 · 장애 시나리오에 있습니다.
-
-| 항목 | 온프레미스 | AWS EKS |
-|------|-----------|---------|
-| 조회 200명 | p95 70ms | p95 29ms, 실패 0% |
-| 스파이크 500명 | - | HPA 2→4→2, 실패 0% |
-| 롤링 배포 중 요청 | 실패 0건 | 실패 0건 |
-| 노드 1대 다운 | 약 3분 10초 중단, 사람이 VM 재시작 | 13초 중단, 새 노드 자동 생성 |
-| DB 재시작 | 27초 복구 | 52초 재부팅, 실패 0.64% |
-| 백업 복원 | mysqldump 복원, 건수 일치 | RDS 자동 백업 7일 |
-
-- 부하 테스트로 병목 3건을 찾아 개선했습니다: 파드 예열, DB 연결 풀 축소, 요약 갱신 후 캐시 덮어쓰기(스파이크 중 실패 3.32% → 0%).
-- AWS 실제 운영 비용은 하루 약 $6.3(30일 약 $190)으로, 설계 견적 대비 약 65% 낮습니다. 대신 RDS·Redis는 Single-AZ입니다.
 
 ---
 
@@ -172,7 +154,7 @@ API 상세 경로와 요청/응답 구조는 Wiki > API Specification 을 따릅
 - 로그인 사용자의 뉴스 기반 질문·답변, 질문 기록·저장
   - 질문 답변은 서비스가 수집한 전자신문 IT 기사(최근 7일) 범위 안에서만 제공 (외부 검색 API 미사용)
 - 온프레미스·AWS 두 환경 자동 배포, Terraform으로 운영 환경 재생성
-- 롤백·백업 복구·부하 테스트·장애 시나리오 검증 (결과는 위 "검증 결과" 참고)
+- 롤백·백업 복구·부하 테스트·장애 시나리오 검증 (결과 요약은 [infra README](https://github.com/Team-likelion-3rd-Project/likelion-devops-7th-3rd-team01-infra#검증-결과))
 
 **현재 미제공:**
 

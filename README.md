@@ -88,7 +88,7 @@ infra 저장소:          같은 Helm 차트로 온프렘(develop)·AWS EKS(main
 [운영: AWS, main]
 사용자
   -> CloudFront -> S3 (React 정적 화면)
-  -> ALB -> Spring Boot API (EKS, HPA 2~4개)
+  -> CloudFront /api/* -> ALB -> Spring Boot API (EKS, HPA 2~4개)
        -> RDS MySQL / ElastiCache Redis (캐시·대기열)
        -> 워커 -> 전자신문 RSS, Amazon Bedrock
   -> 응답
